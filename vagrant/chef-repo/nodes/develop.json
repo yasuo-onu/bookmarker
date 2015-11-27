@@ -1,0 +1,11 @@
+{
+  "run_list": [
+    "common",
+    "mysql",
+    "php",
+    "apache"
+  ],
+  "automatic": {
+    "ipaddress": "develop"
+  }
+}

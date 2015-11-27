@@ -1,0 +1,49 @@
+NameVirtualHost *:80
+
+<VirtualHost *:80>
+    ServerName <%= node["apache"]["ServerName"] %>
+    DocumentRoot <%= node["apache"]["DocumentRoot"] %>
+
+    SetEnv APPLICATION_ENV <%= node["apache"]["APPLICATION_ENV"] %>
+
+    <Directory "<%= node['apache']['DocumentRoot'] %>">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    LogLevel warn
+    ErrorLog logs/error.log
+    LogFormat "<%= node['apache']['LogFormat'] %>" combined_local
+    CustomLog logs/access.log combined_local
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName <%= node["apache"]["ImgServerName"] %>
+    ServerAlias <%= node["apache"]["ServerAlias"] %>
+    DocumentRoot <%= node["apache"]["DocumentRoot"] %>
+
+    SetEnv APPLICATION_ENV <%= node["apache"]["APPLICATION_ENV"] %>
+
+    <Directory "<%= node['apache']['DocumentRoot'] %>">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    LogLevel warn
+    ErrorLog logs/error_img.log
+    LogFormat "<%= node['apache']['LogFormat'] %>" combined_local
+    CustomLog logs/access_img.log combined_local
+
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+ 
+    Header set Cache-Control "public"
+    Header unset Pragma
+    Header unset ETag
+    Header unset Last-Modified
+</VirtualHost>
+
